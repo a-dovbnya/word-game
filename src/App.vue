@@ -30,8 +30,8 @@
       <button class="control" @click="init">Новая игра</button>
     </div>
 
-    <p>NewWord = {{ newWord }}</p>
-    <p>currentWord = {{ _currentWord }}</p>
+    <!-- <p>NewWord = {{ newWord }}</p>
+    <p>currentWord = {{ _currentWord }}</p> -->
 
     <p v-if="error" class="error">{{ error }}</p>
     <p v-if="success" class="success">Победа!!!</p>

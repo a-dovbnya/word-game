@@ -11,7 +11,22 @@
                 :disabled="isDisabled(symbol)"
                 class="keyboard__symbol"
                 @click="onKeyClick(symbol)"
-            >{{ symbol }}</button>
+            >
+                <img
+                    v-if="symbol === applySymbol"
+                    v-svg-inline
+                    src="../assets/icons/done.svg"
+                    class="keyboard__icon"
+                />
+
+                <img
+                    v-else-if="symbol === removeSymbol"
+                    v-svg-inline
+                    src="../assets/icons/arrow_back.svg"
+                    class="keyboard__icon"
+                />
+                <span v-else>{{ symbol }}</span>
+            </button>
         </div>
     </div>
 </template>
@@ -20,7 +35,7 @@
 import { defineEmits, defineProps, onMounted, onBeforeUnmount } from 'vue'
 
 const applySymbol = 'Add'
-const removeSymbol = '<--'
+const removeSymbol = '<-'
 
 const alphabetRows = [
     ['й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ'],
@@ -94,6 +109,17 @@ onBeforeUnmount(() => {
             gap: 8px;
         }
 
+        &__icon {
+            fill: white;
+            width: 30px;
+            height: 30px;
+            margin-top: 3px;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
         &__symbol {
             width: 50px;
             height: 50px;
@@ -106,12 +132,20 @@ onBeforeUnmount(() => {
             background: none;
             transition: .2s linear;
 
-            &:hover {
+            &:not(:disabled):hover {
                 background: var(--dark-primary-color);
             }
 
-            &:active {
+            &:not(:disabled):active {
                 background: var(--primary-color);
+            }
+
+            &:focus {
+                outline: none;
+            }
+
+            &:disabled {
+                opacity: .5;
             }
         }
     }
