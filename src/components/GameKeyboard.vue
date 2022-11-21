@@ -11,6 +11,7 @@
                 :disabled="isDisabled(symbol)"
                 class="keyboard__symbol"
                 @click="onKeyClick(symbol)"
+                @keydown.prevent
             >
                 <img
                     v-if="symbol === applySymbol"
@@ -96,6 +97,29 @@ onBeforeUnmount(() => {
 
 </script>
 
+<style lang="less">
+:root {
+    --keyboard-symbol-size: 50px;
+    --keyboard-symbol-font-size: 16px;
+    --icon-button-size: 25px;
+}
+
+@media screen and (max-width: 740px) {
+    :root {
+        --keyboard-symbol-size: 40px;
+        --icon-button-size: 20px;
+    }
+}
+
+@media screen and (max-width: 590px) {
+    :root {
+        --keyboard-symbol-size: 25px;
+        --keyboard-symbol-font-size: 13px;
+        --icon-button-size: 15px;
+    }
+}
+</style>
+
 <style lang="less" scoped>
     .keyboard {
         display: flex;
@@ -111,9 +135,8 @@ onBeforeUnmount(() => {
 
         &__icon {
             fill: white;
-            width: 30px;
-            height: 30px;
-            margin-top: 3px;
+            width: var(--icon-button-size);
+            height: var(--icon-button-size);
 
             &:focus {
                 outline: none;
@@ -121,15 +144,20 @@ onBeforeUnmount(() => {
         }
 
         &__symbol {
-            width: 50px;
-            height: 50px;
-            font-size: 16px;
+            width: var(--keyboard-symbol-size);
+            height: var(--keyboard-symbol-size);
+            font-size: var(--keyboard-symbol-font-size);
+            line-height: 1;
             cursor: pointer;
             appearance: none;
             border: 1px solid var(--primary-color);
             border-radius: 4px;
+            padding: 2px;
             color: white;
             background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: .2s linear;
 
             &:not(:disabled):hover {
