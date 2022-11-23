@@ -1,18 +1,37 @@
 <template>
-  <div class="wrap">
-    <div class="game">
-        <SingleWord
-          v-for="i in 5"
-          :key="i"
-          :word="currentWords[i-1]"
-          :current-word="_currentWord"
-          :is-input="words.length === i - 1"
-          :active="words.length === i - 1 && !success"
-          :class="{'active-row': words.length === i - 1 && !success}"
-        />
+  <div class="app">
+    <div class="app__content">
+
+      <div class="app__panel">
+        <button class="tool-btn" @click="init" @keydown.prevent>
+          <img
+              v-svg-inline
+              src="./assets/icons/refresh.svg"
+              class="tool-btn__icon"
+          />
+        </button>
+
+        <!-- <button class="tool-btn" @click="init" @keydown.prevent>
+          <img
+              v-svg-inline
+              src="./assets/icons/settings.svg"
+              class="tool-btn__icon"
+          />
+        </button> -->
+      </div>
+
+      <div class="app__game">
+          <SingleWord
+            v-for="i in 5"
+            :key="i"
+            :word="currentWords[i-1]"
+            :current-word="_currentWord"
+            :is-input="words.length === i - 1"
+            :active="words.length === i - 1 && !success"
+            :class="{'active-row': words.length === i - 1 && !success}"
+          />
+      </div>
     </div>
-    <!-- <p>Words length = {{ words.length }}</p>
-    <p>Current words = {{ currentWords }}</p> -->
 
     <GameKeyboard
       :word="newWord"
@@ -20,15 +39,6 @@
       @remove-last-symbol="onRemoveLastSymbol"
       @apply-word="addWord"
     />
-
-    <div class="controls">
-      <button
-        :disabled="newWord.length !== 5"
-        class="control"
-        @click="addWord"
-      >Принять</button>
-      <button class="control" @click="init">Новая игра</button>
-    </div>
 
     <!-- <p>NewWord = {{ newWord }}</p>
     <p>currentWord = {{ _currentWord }}</p> -->
@@ -42,6 +52,7 @@
 import { ref, computed, onBeforeMount } from 'vue'
 import SingleWord from './components/SingleWord.vue'
 import GameKeyboard from './components/GameKeyboard.vue'
+// import ToolPanel from './components/ToolPanel.vue'
 import dictionary from './dictionary'
 
 const WORD_QUANTITY = 5
@@ -114,36 +125,87 @@ onBeforeMount(() => {
   /* --primary-text: #212121; */
   --secondary-text: #757575;
   --devider-color: #BDBDBD;
+
+
+  --app-width: 700px;
+  --game-width: 254px;
 }
+
 body {
   background: var(--dark-color);
 }
 </style>
 <style lang="less" scoped>
-.wrap {
+@app: .app;
+
+@{app} {
   margin: 0 auto;
   width: 100%;
-  max-width: 700px;
+  max-width: var(--app-width);
   margin-top: 30px;
   font-family: sans-serif;
+
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0 calc((var(--app-width) - var(--game-width)) / 2);
+    position: relative;
+  }
+
+  &__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc((var(--app-width) - var(--game-width)) / 2 - 30px);
+    height: 50px;
+    display: flex;
+    gap: 8px;
+  }
+
+  &__game {
+    width: var(--game-width);
+    margin: 0 auto;
+  }
+
+  @media screen and (max-width: 730px) {
+    &__content {
+      display: block;
+      padding: 0 30px;
+    }
+
+    &__panel {
+      position: static;
+      width: var(--game-width);
+      margin: 0 auto;
+    }
+  }
 }
 
-.game {
-  width: 254px;
-  margin: 0 auto;
-}
+.tool-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 4px;
+  border: 1px solid white;
+  background: none;
+  appearance: none;
+  padding: 4px;
 
-.controls {
-  margin-top: 25px;
-  display: flex;
-  justify-content: center;
-}
+  &__icon {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    fill: white;
+    transition: .25s linear;
 
-.control {
-  height: 40px;
-  min-width: 100px;
-  margin-right: 8px;
-  cursor: pointer;
+    &:hover {
+      opacity: .7;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
 }
 
 .active-row {
