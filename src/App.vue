@@ -3,21 +3,21 @@
     <div class="app__content">
 
       <div class="app__panel">
-        <button class="tool-btn" @click="init" @keydown.prevent>
+        <GameButton button-type="tool" @click="init">
           <img
               v-svg-inline
               src="./assets/icons/refresh.svg"
               class="tool-btn__icon"
           />
-        </button>
+        </GameButton>
 
-        <!-- <button class="tool-btn" @click="init" @keydown.prevent>
+        <!-- <GameButton button-type="tool" @click="init">
           <img
               v-svg-inline
               src="./assets/icons/settings.svg"
               class="tool-btn__icon"
           />
-        </button> -->
+        </GameButton> -->
       </div>
 
       <div class="app__game">
@@ -52,7 +52,7 @@
 import { ref, computed, onBeforeMount } from 'vue'
 import SingleWord from './components/SingleWord.vue'
 import GameKeyboard from './components/GameKeyboard.vue'
-// import ToolPanel from './components/ToolPanel.vue'
+import GameButton from './components/GameButton.vue'
 import dictionary from './dictionary'
 
 const WORD_QUANTITY = 5
@@ -113,7 +113,7 @@ onBeforeMount(() => {
 })
 </script>
 
-<style>
+<style lang="less">
 :root {
   --dark-primary-color: #0097A7;
   --light-primary-color: #B2EBF2;
@@ -129,6 +129,29 @@ onBeforeMount(() => {
 
   --app-width: 700px;
   --game-width: 254px;
+
+  // Кнопки панели инструментов
+  --tool-button-size: 35px;
+  --tool-button-icon-size: 25px;
+  --tool-button-border-color: 25px;
+  --tool-button-border-color: white;
+
+  // Кнопки клавиатуры
+  --default-button-size: 50px;
+  --default-button-font-size: 16px;
+  --default-button-icon-size: 25px;
+  --default-button-border-color: var(--primary-color);
+
+  @media screen and (max-width: 740px) {
+    --default-button-size: 40px;
+    --default-button-icon-size: 20px;
+  }
+
+  @media screen and (max-width: 590px) {
+      --default-button-size: 25px;
+      --default-button-font-size: 13px;
+      --default-button-icon-size: 15px;
+  }
 }
 
 body {
@@ -178,32 +201,6 @@ body {
       position: static;
       width: var(--game-width);
       margin: 0 auto;
-    }
-  }
-}
-
-.tool-btn {
-  width: 35px;
-  height: 35px;
-  border-radius: 4px;
-  border: 1px solid white;
-  background: none;
-  appearance: none;
-  padding: 4px;
-
-  &__icon {
-    width: 25px;
-    height: 25px;
-    cursor: pointer;
-    fill: white;
-    transition: .25s linear;
-
-    &:hover {
-      opacity: .7;
-    }
-
-    &:focus {
-      outline: none;
     }
   }
 }
