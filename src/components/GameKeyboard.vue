@@ -102,7 +102,6 @@ onBeforeUnmount(() => {
         flex-wrap: wrap;
         justify-content: center;
         gap: 8px;
-        margin-top: 50px;
 
         &__row {
             display: flex;

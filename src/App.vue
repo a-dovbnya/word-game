@@ -27,13 +27,20 @@
             :word="currentWords[i-1]"
             :current-word="_currentWord"
             :is-input="words.length === i - 1"
-            :active="words.length === i - 1 && !success"
-            :class="{'active-row': words.length === i - 1 && !success}"
+            :active="words.length === i - 1 && !isSuccess"
+            :class="{'active-row': words.length === i - 1 && !isSuccess}"
           />
       </div>
     </div>
 
+    <div v-if="gameOver" class="app__game-over">
+      <p v-if="gameOver === GAME_OVER.SUCCESS" class="app__game-over-msg app__game-over-msg_success">Вы отгадали слово</p>
+      <p v-else-if="gameOver === GAME_OVER.ERROR" class="app__game-over-msg app__game-over-msg_error">Вы не отгадали слово</p>
+      <GameButton class="app__game-over-btn" @click="init">Еще раз</GameButton>
+    </div>
+
     <GameKeyboard
+      v-else
       :word="newWord"
       @set-letter="onSetLetter"
       @remove-last-symbol="onRemoveLastSymbol"
@@ -42,9 +49,6 @@
 
     <!-- <p>NewWord = {{ newWord }}</p>
     <p>currentWord = {{ _currentWord }}</p> -->
-
-    <p v-if="error" class="error">{{ error }}</p>
-    <p v-if="success" class="success">Победа!!!</p>
   </div>
 </template>
 
@@ -57,12 +61,16 @@ import dictionary from './dictionary'
 
 const WORD_QUANTITY = 5
 const LETTERS_QUANTITY = 5
+const GAME_OVER = {
+  SUCCESS: 'success',
+  ERROR: 'error'
+}
 
 
 const words = ref([])
 const newWord = ref('')
 const error = ref()
-const success = ref(false)
+const gameOver = ref(null)
 const _currentWord = ref('')
 
 const currentWords = computed(() => {
@@ -71,6 +79,10 @@ const currentWords = computed(() => {
   }
 
   return words.value
+})
+
+const isSuccess = computed(() => {
+  return gameOver.value === GAME_OVER.SUCCESS
 })
 
 const setWord = () => {
@@ -86,7 +98,12 @@ const addWord = () => {
   newWord.value = ''
 
   if (words.value[words.value.length - 1] === _currentWord.value) {
-    success.value = true
+    gameOver.value = GAME_OVER.SUCCESS
+    return
+  }
+
+  if (words.value.length === 5) {
+    gameOver.value = GAME_OVER.ERROR
   }
 }
 
@@ -103,8 +120,8 @@ const onRemoveLastSymbol = () => {
 const init = () => {
   words.value = []
   newWord.value = ''
-  success.value = false
   error.value = null
+  gameOver.value = null
   setWord()
 }
 
@@ -156,6 +173,7 @@ onBeforeMount(() => {
 
 body {
   background: var(--dark-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 </style>
 <style lang="less" scoped>
@@ -186,9 +204,34 @@ body {
     gap: 8px;
   }
 
+  &__game-over {
+    font-size: 24px;
+    line-height: 1;
+    text-align: center;
+    color: white;
+  }
+
+  &__game-over-msg {
+    margin-top: 0;
+    margin-bottom: 50px;
+    font-weight: 200;
+
+    &_success {
+      color: var(--accent-color);
+    }
+    &_error {
+      color: var(--light-primary-color);
+    }
+  }
+
+  &__game-over-btn {
+    display: inline-flex;
+    padding: 0 30px;
+  }
+
   &__game {
     width: var(--game-width);
-    margin: 0 auto;
+    margin: 0 auto 50px;
   }
 
   @media screen and (max-width: 730px) {
@@ -209,16 +252,5 @@ body {
   box-shadow: 0px 0px 5px 2px var(--primary-color);
   position: relative;
   z-index: 10;
-}
-
-.error {
-  color: red;
-}
-
-.success {
-  font-size: 24px;
-  font-weight: bold;
-  color: green;
-  text-align: center;
 }
 </style>

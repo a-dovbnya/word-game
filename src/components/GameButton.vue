@@ -30,6 +30,9 @@ const props = defineProps({
         display: flex;
         align-items: center;
         justify-content: center;
+        user-select: none;
+        touch-action: manipulation;
+        outline: none;
         transition: .2s linear;
 
         &:focus {
@@ -50,7 +53,7 @@ const props = defineProps({
         }
 
         &_default {
-            width: var(--default-button-size);
+            min-width: var(--default-button-size);
             height: var(--default-button-size);
             font-size: var(--default-button-font-size);
             border: 1px solid var(--default-button-border-color);
@@ -71,7 +74,7 @@ const props = defineProps({
         }
 
         &_tool {
-            width: var(--tool-button-size);
+            min-width: var(--tool-button-size);
             height: var(--tool-button-size);
             border: 1px solid var(--tool-button-border-color);
             color: white;
