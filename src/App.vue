@@ -143,7 +143,7 @@ onBeforeMount(() => {
   --secondary-text: #757575;
   --devider-color: #BDBDBD;
 
-
+  // Размеры основных элементов
   --app-width: 700px;
   --game-width: 254px;
 
@@ -159,15 +159,18 @@ onBeforeMount(() => {
   --default-button-icon-size: 25px;
   --default-button-border-color: var(--primary-color);
 
+  // Высота кнопки клавиатуры на мобильном разрешении
+  --keyboard-button-mobile-height: 35px;
+
   @media screen and (max-width: 740px) {
     --default-button-size: 40px;
     --default-button-icon-size: 20px;
   }
 
   @media screen and (max-width: 590px) {
-      --default-button-size: 25px;
-      --default-button-font-size: 13px;
-      --default-button-icon-size: 15px;
+    --default-button-size: 22px;
+    --default-button-font-size: 13px;
+    --default-button-icon-size: 15px;
   }
 }
 

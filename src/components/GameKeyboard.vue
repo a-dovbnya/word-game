@@ -9,6 +9,7 @@
                 v-for="(symbol, j) in alphabetRow"
                 :key="`keyboard-${symbol}-${j}`"
                 :disabled="isDisabled(symbol)"
+                class="keyboard__btn"
                 @click="onKeyClick(symbol)"
             >
                 <img
@@ -115,6 +116,18 @@ onBeforeUnmount(() => {
 
             &:focus {
                 outline: none;
+            }
+        }
+        
+        @media screen and (max-width: 590px) {
+            gap: 4px;
+
+            &__row {
+                gap: 4px;
+            }
+
+            &__btn {
+                height: var(--keyboard-button-mobile-height);
             }
         }
     }
