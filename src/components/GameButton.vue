@@ -53,29 +53,37 @@ const props = defineProps({
         }
 
         &_default {
-            min-width: var(--default-button-size);
-            height: var(--default-button-size);
+            min-width: var(--default-button-width);
+            height: var(--default-button-height);
             font-size: var(--default-button-font-size);
             border: 1px solid var(--default-button-border-color);
             color: white;
 
-            &:not(:disabled):hover {
-                background: var(--dark-primary-color);
+            // &:not(:disabled):hover {
+            //     background: var(--dark-primary-color);
+            // }
+
+
+            /deep/ svg {
+                width: var(--default-button-icon-size);
+                height: var(--default-button-icon-size);
             }
 
             &:not(:disabled):active {
                 background: var(--primary-color);
             }
 
-            /deep/ svg {
-                width: var(--default-button-icon-size);
-                height: var(--default-button-icon-size);
-            }
+            // @media (hover: none) {
+            //     &:not(:disabled):hover {
+            //         background: var(--dark-primary-color);
+            //     }
+            // }
+
         }
 
         &_tool {
-            min-width: var(--tool-button-size);
-            height: var(--tool-button-size);
+            min-width: var(--tool-button-width);
+            height: var(--tool-button-height);
             border: 1px solid var(--tool-button-border-color);
             color: white;
 

@@ -120,10 +120,10 @@ onBeforeUnmount(() => {
         }
         
         @media screen and (max-width: 590px) {
-            gap: 4px;
+            gap: 5px;
 
             &__row {
-                gap: 4px;
+                gap: 5px;
             }
 
             &__btn {

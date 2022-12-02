@@ -1,0 +1,51 @@
+:root {
+    --dark-primary-color: #0097A7;
+    --light-primary-color: #B2EBF2;
+    --primary-color: #00BCD4;
+    --dark-color: #212121;
+  
+    --text-icons: #FFF;
+    --accent-color: #FFC107;
+    /* --primary-text: #212121; */
+    --secondary-color: #757575;
+    --light-secondary-color: #BDBDBD;
+  
+    // Размеры основных элементов
+    --app-width: 700px;
+    --game-width: 254px;
+  
+    // Кнопки панели инструментов
+    --tool-button-width: 35px;
+    --tool-button-height: 35px;
+    --tool-button-icon-size: 25px;
+    --tool-button-border-color: 25px;
+    --tool-button-border-color: white;
+  
+    // Кнопки клавиатуры
+    --default-button-width: 50px;
+    --default-button-height: 50px;
+    --default-button-font-size: 16px;
+    --default-button-icon-size: 25px;
+    --default-button-border-color: var(--primary-color);
+  
+    // Высота кнопки клавиатуры на мобильном разрешении
+    --keyboard-button-mobile-height: 35px;
+  
+    @media screen and (max-width: 740px) {
+      --default-button-width: 40px;
+      --default-button-height: 40px;
+      --default-button-icon-size: 20px;
+    }
+  
+    @media screen and (max-width: 590px) {
+      --default-button-width: 25px;
+      --default-button-height: 25px;
+      --default-button-font-size: 13px;
+      --default-button-icon-size: 15px;
+    }
+  
+    @media screen and (max-width: 358px) {
+      --default-button-width: 22px;
+      --default-button-height: 22px;
+    }
+  }

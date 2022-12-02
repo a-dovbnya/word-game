@@ -131,54 +131,14 @@ onBeforeMount(() => {
 </script>
 
 <style lang="less">
-:root {
-  --dark-primary-color: #0097A7;
-  --light-primary-color: #B2EBF2;
-  --primary-color: #00BCD4;
-  --dark-color: #212121;
-
-  --text-icons: #FFF;
-  --accent-color: #FFC107;
-  /* --primary-text: #212121; */
-  --secondary-text: #757575;
-  --devider-color: #BDBDBD;
-
-  // Размеры основных элементов
-  --app-width: 700px;
-  --game-width: 254px;
-
-  // Кнопки панели инструментов
-  --tool-button-size: 35px;
-  --tool-button-icon-size: 25px;
-  --tool-button-border-color: 25px;
-  --tool-button-border-color: white;
-
-  // Кнопки клавиатуры
-  --default-button-size: 50px;
-  --default-button-font-size: 16px;
-  --default-button-icon-size: 25px;
-  --default-button-border-color: var(--primary-color);
-
-  // Высота кнопки клавиатуры на мобильном разрешении
-  --keyboard-button-mobile-height: 35px;
-
-  @media screen and (max-width: 740px) {
-    --default-button-size: 40px;
-    --default-button-icon-size: 20px;
-  }
-
-  @media screen and (max-width: 590px) {
-    --default-button-size: 22px;
-    --default-button-font-size: 13px;
-    --default-button-icon-size: 15px;
-  }
-}
+@import '@/assets/styles/settings.less';
 
 body {
   background: var(--dark-color);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 </style>
+
 <style lang="less" scoped>
 @app: .app;
 
@@ -246,7 +206,7 @@ body {
     &__panel {
       position: static;
       width: var(--game-width);
-      margin: 0 auto;
+      margin: 0 auto 15px;
     }
   }
 }

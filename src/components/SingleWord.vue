@@ -97,7 +97,7 @@
         text-transform: uppercase;
 
         &_default {
-            background: var(--devider-color);
+            background: var(--light-secondary-color);
         }
 
         &_success {
