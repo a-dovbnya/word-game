@@ -45,6 +45,10 @@ const alphabetRows = [
 ]
 
 const isDisabled = symbol => {
+    if (props.disabledSymbols.includes(symbol)) {
+        return true
+    }
+
     return (symbol === applySymbol && props.word.length < 5) || (symbol === removeSymbol && !props.word.length)
 }
 
@@ -52,6 +56,11 @@ const props = defineProps({
     word: {
         type: String,
         default: ''
+    },
+
+    disabledSymbols: {
+        type: Array,
+        default: () => []
     }
 })
 

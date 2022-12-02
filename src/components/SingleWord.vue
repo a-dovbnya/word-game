@@ -22,6 +22,11 @@
             default: ''
         },
 
+        isOpen: {
+            type: Boolean,
+            default: false
+        },
+
         isInput: {
             type: Boolean,
             default: false
@@ -70,6 +75,10 @@
 
         if (props.currentWord.includes(letter)) {
             classes.push('letter_in-word')
+        }
+
+        if (props.isOpen) {
+            classes.push('letter_default')
         }
 
         return classes

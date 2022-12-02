@@ -24,6 +24,7 @@
           <SingleWord
             v-for="i in 5"
             :key="i"
+            :is-open="i <= words.length"
             :word="currentWords[i-1]"
             :current-word="_currentWord"
             :is-input="words.length === i - 1"
@@ -42,13 +43,15 @@
     <GameKeyboard
       v-else
       :word="newWord"
+      :disabled-symbols="disabledSymbols"
       @set-letter="onSetLetter"
       @remove-last-symbol="onRemoveLastSymbol"
       @apply-word="addWord"
     />
 
     <!-- <p>NewWord = {{ newWord }}</p>
-    <p>currentWord = {{ _currentWord }}</p> -->
+    <p>currentWord = {{ _currentWord }}</p>
+    <p>{{ disabledSymbols }}</p> -->
   </div>
 </template>
 
@@ -83,6 +86,13 @@ const currentWords = computed(() => {
 
 const isSuccess = computed(() => {
   return gameOver.value === GAME_OVER.SUCCESS
+})
+
+const disabledSymbols = computed(() => {
+    return words.value
+        .reduce((res, currentWord) => res + currentWord, '')
+        .split('')
+        .filter((symbol, i, arr) => !_currentWord.value.includes(symbol) && arr.indexOf(symbol) === i)
 })
 
 const setWord = () => {

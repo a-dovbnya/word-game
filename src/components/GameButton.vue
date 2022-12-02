@@ -41,7 +41,8 @@ const props = defineProps({
 
         &:disabled {
             cursor: default;
-            opacity: .5;
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
         }
 
         /deep/ svg {
