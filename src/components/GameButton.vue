@@ -33,7 +33,7 @@ const props = defineProps({
         user-select: none;
         touch-action: manipulation;
         outline: none;
-        transition: .2s linear;
+        transition: .15s linear;
 
         &:focus {
             outline: none;

@@ -71,9 +71,7 @@
 
         if (props.currentWord && props.currentWord[position] === letter) {
             classes.push('letter_on-position')
-        }
-
-        if (props.currentWord.includes(letter)) {
+        } else if (props.currentWord.includes(letter)) {
             classes.push('letter_in-word')
         }
 

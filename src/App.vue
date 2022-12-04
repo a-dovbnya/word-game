@@ -3,21 +3,29 @@
     <div class="app__content">
 
       <div class="app__panel">
-        <GameButton button-type="tool" @click="init">
-          <img
+        <img
               v-svg-inline
-              src="./assets/icons/refresh.svg"
-              class="tool-btn__icon"
+              class="app__logo"
+              src="./assets/logo.svg"
           />
-        </GameButton>
 
-        <!-- <GameButton button-type="tool" @click="init">
-          <img
-              v-svg-inline
-              src="./assets/icons/settings.svg"
-              class="tool-btn__icon"
-          />
-        </GameButton> -->
+        <div>
+            <GameButton button-type="tool" @click="init">
+            <img
+                v-svg-inline
+                src="./assets/icons/refresh.svg"
+                class="tool-btn__icon"
+            />
+            </GameButton>
+
+            <!-- <GameButton button-type="tool" @click="init">
+            <img
+                v-svg-inline
+                src="./assets/icons/settings.svg"
+                class="tool-btn__icon"
+            />
+            </GameButton> -->
+        </div>
       </div>
 
       <div class="app__game">
@@ -168,13 +176,22 @@ body {
   }
 
   &__panel {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: calc((var(--app-width) - var(--game-width)) / 2 - 30px);
+    width: 100%;
     height: 50px;
     display: flex;
+    justify-content: space-between;
     gap: 8px;
+    width: var(--game-width);
+    margin: 0 auto 15px;
+  }
+
+  &__logo {
+    width: var(--logo-size);
+    height: var(--logo-size);
+
+    &, &:focus {
+        outline: none;
+    }
   }
 
   &__game-over {
@@ -211,12 +228,6 @@ body {
     &__content {
       display: block;
       padding: 0 30px;
-    }
-
-    &__panel {
-      position: static;
-      width: var(--game-width);
-      margin: 0 auto 15px;
     }
   }
 }
