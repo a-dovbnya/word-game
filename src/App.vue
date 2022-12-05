@@ -1,4 +1,5 @@
 <template>
+  <SetupPanel />
   <div class="app">
     <div class="app__content">
 
@@ -68,6 +69,7 @@ import { ref, computed, onBeforeMount } from 'vue'
 import SingleWord from './components/SingleWord.vue'
 import GameKeyboard from './components/GameKeyboard.vue'
 import GameButton from './components/GameButton.vue'
+import SetupPanel from  './components/InstallPanel.vue'
 import dictionary from './dictionary'
 
 const WORD_QUANTITY = 5
@@ -154,6 +156,13 @@ onBeforeMount(() => {
 body {
   background: var(--dark-color);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+}
+
+* {
+  box-sizing: border-box;
 }
 </style>
 
@@ -182,7 +191,7 @@ body {
     justify-content: space-between;
     gap: 8px;
     width: var(--game-width);
-    margin: 0 auto 15px;
+    margin: 0 auto 35px;
   }
 
   &__logo {
