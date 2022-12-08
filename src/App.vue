@@ -1,33 +1,36 @@
 <template>
-  <SetupPanel />
+  <header class="app-panel">
+    <div class="app-panel__content">
+      <img
+        v-svg-inline
+        class="app-panel__logo"
+        src="./assets/logo.svg"
+      />
+
+      <div class="app-panel__tools">
+        <GameButton button-type="tool" @click="init">
+          <img
+              v-svg-inline
+              src="./assets/icons/refresh.svg"
+              class="tool-btn__icon"
+          />
+        </GameButton>
+
+        <!-- <GameButton button-type="tool" @click="init">
+          <img
+              v-svg-inline
+              src="./assets/icons/settings.svg"
+              class="tool-btn__icon"
+          />
+        </GameButton> -->
+
+        <InstallPanel />
+      </div>
+    </div>
+  </header>
+
   <div class="app">
     <div class="app__content">
-
-      <div class="app__panel">
-        <img
-              v-svg-inline
-              class="app__logo"
-              src="./assets/logo.svg"
-          />
-
-        <div>
-            <GameButton button-type="tool" @click="init">
-            <img
-                v-svg-inline
-                src="./assets/icons/refresh.svg"
-                class="tool-btn__icon"
-            />
-            </GameButton>
-
-            <!-- <GameButton button-type="tool" @click="init">
-            <img
-                v-svg-inline
-                src="./assets/icons/settings.svg"
-                class="tool-btn__icon"
-            />
-            </GameButton> -->
-        </div>
-      </div>
 
       <div class="app__game">
           <SingleWord
@@ -45,7 +48,7 @@
 
     <div v-if="gameOver" class="app__game-over">
       <p v-if="gameOver === GAME_OVER.SUCCESS" class="app__game-over-msg app__game-over-msg_success">Вы отгадали слово</p>
-      <p v-else-if="gameOver === GAME_OVER.ERROR" class="app__game-over-msg app__game-over-msg_error">Вы не отгадали слово</p>
+      <p v-else-if="gameOver === GAME_OVER.ERROR" class="app__game-over-msg app__game-over-msg_error">Вы не отгадали слово : "{{_currentWord}}"</p>
       <GameButton class="app__game-over-btn" @click="init">Еще раз</GameButton>
     </div>
 
@@ -69,7 +72,7 @@ import { ref, computed, onBeforeMount } from 'vue'
 import SingleWord from './components/SingleWord.vue'
 import GameKeyboard from './components/GameKeyboard.vue'
 import GameButton from './components/GameButton.vue'
-import SetupPanel from  './components/InstallPanel.vue'
+import InstallPanel from  './components/InstallPanel.vue'
 import dictionary from './dictionary'
 
 const WORD_QUANTITY = 5
@@ -106,7 +109,8 @@ const disabledSymbols = computed(() => {
 })
 
 const setWord = () => {
-  _currentWord.value = dictionary[Math.floor(Math.random() * dictionary.length)]
+  _currentWord.value = dictionary[Math.floor(Math.random() * dictionary.length)].toLowerCase()
+  console.log('words = ', dictionary.length)
 }
 
 const addWord = () => {
@@ -169,6 +173,34 @@ body {
 <style lang="less" scoped>
 @app: .app;
 
+.app-panel {
+  width: 100%;
+  margin: 0 0 50px;
+  padding: 10px;
+  background: var(--dark-primary-color);
+
+  &__logo {
+    width: var(--logo-size);
+    height: var(--logo-size);
+
+    &, &:focus {
+      outline: none;
+    }
+  }
+
+  &__tools {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__content {
+    max-width: 1024px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+  }
+}
+
 @{app} {
   margin: 0 auto;
   width: 100%;
@@ -192,15 +224,6 @@ body {
     gap: 8px;
     width: var(--game-width);
     margin: 0 auto 35px;
-  }
-
-  &__logo {
-    width: var(--logo-size);
-    height: var(--logo-size);
-
-    &, &:focus {
-        outline: none;
-    }
   }
 
   &__game-over {

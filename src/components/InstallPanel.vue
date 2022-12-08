@@ -1,7 +1,7 @@
 <template>
     <div v-if="isShown" class="install-panel">
-        <GameButton class="install-btn" @click="install">Установить</GameButton>
-        <GameButton class="install-btn" @click="isShown = false">Не сейчас</GameButton>
+        <GameButton class="install-btn" button-type="tool" @click="install">Установить</GameButton>
+        <GameButton class="install-btn" button-type="tool" @click="isShown = false">Не сейчас</GameButton>
     </div>
 </template>
 
@@ -13,7 +13,7 @@ const isShown = ref(false)
 let installEvent = null
 
 const install = () => {
-  if (!install.event) {
+  if (!installEvent) {
     return
   }
 
@@ -45,11 +45,7 @@ onBeforeUnmount(() => {
 
 <style lang="less" scoped>
 .install-panel {
-  width: 100%;
-  text-align: right;
-  margin: 0 0 25px;
-  padding: 15px 30px;
-  background: var(--dark-primary-color);
+  margin-left: 20px;
 }
 
 .install-btn {
