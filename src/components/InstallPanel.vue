@@ -1,7 +1,7 @@
 <template>
     <div v-if="isShown" class="install-panel">
-        <GameButton class="install-btn" button-type="tool" @click="install">Установить</GameButton>
-        <GameButton class="install-btn" button-type="tool" @click="isShown = false">Не сейчас</GameButton>
+        <GameButton class="install-btn" button-type="secondary" @click="install">Установить</GameButton>
+        <GameButton class="install-btn" button-type="secondary" @click="isShown = false">Не сейчас</GameButton>
     </div>
 </template>
 
@@ -49,9 +49,6 @@ onBeforeUnmount(() => {
 }
 
 .install-btn {
-  display: inline-flex;
-  padding: 0 20px;
-
   & + & {
     margin-left: 8px;
   }

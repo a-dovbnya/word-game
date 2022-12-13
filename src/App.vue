@@ -8,7 +8,7 @@
       />
 
       <div class="app-panel__tools">
-        <GameButton button-type="tool" @click="init">
+        <GameButton button-type="secondary" @click="init">
           <img
               v-svg-inline
               src="./assets/icons/refresh.svg"
@@ -16,7 +16,7 @@
           />
         </GameButton>
 
-        <!-- <GameButton button-type="tool" @click="init">
+        <!-- <GameButton button-type="secondary" @click="init">
           <img
               v-svg-inline
               src="./assets/icons/settings.svg"
@@ -48,7 +48,7 @@
 
     <div v-if="gameOver" class="app__game-over">
       <p v-if="gameOver === GAME_OVER.SUCCESS" class="app__game-over-msg app__game-over-msg_success">Вы отгадали слово</p>
-      <p v-else-if="gameOver === GAME_OVER.ERROR" class="app__game-over-msg app__game-over-msg_error">Вы не отгадали слово : "{{_currentWord}}"</p>
+      <p v-else-if="gameOver === GAME_OVER.ERROR" class="app__game-over-msg app__game-over-msg_error">Вы не отгадали слово : <br />"{{_currentWord}}"</p>
       <GameButton class="app__game-over-btn" @click="init">Еще раз</GameButton>
     </div>
 

@@ -1,6 +1,10 @@
 <template>
     <button
-        :class="['button', `button_${props.buttonType}`]"
+        :class="[
+            'button',
+            `button_${props.buttonType}`,
+            `button_${props.buttonType}-${isIcon ? 'icon' : 'text'}`
+        ]"
         @keydown.prevent
     >
         <slot />
@@ -8,15 +12,19 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
+import { defineProps, useSlots } from 'vue'
 
 const props = defineProps({
-    // types: default, tool
+    // types: primary, secondary
     buttonType: {
         type: String,
-        default: 'default'
+        default: 'primary'
     }
 })
+
+const slots = useSlots()
+const isIcon = ['img', 'svg'].includes(slots.default()[0]?.type)
+
 </script>
 
 <style lang="less" scoped>
@@ -53,53 +61,73 @@ const props = defineProps({
             }
         }
 
-        &_default {
-            min-width: var(--default-button-width);
-            height: var(--default-button-height);
-            font-size: var(--default-button-font-size);
-            border: 1px solid var(--default-button-border-color);
+        &_primary {
+            min-width: var(--primary-button-width);
+            height: var(--primary-button-height);
+            font-size: var(--primary-button-font-size);
+            border: 1px solid var(--primary-button-border-color);
             color: white;
 
-            // &:not(:disabled):hover {
-            //     background: var(--dark-primary-color);
-            // }
-
+            
 
             /deep/ svg {
-                width: var(--default-button-icon-size);
-                height: var(--default-button-icon-size);
+                width: var(--primary-button-icon-size);
+                height: var(--primary-button-icon-size);
             }
 
-            &:not(:disabled):active {
+            &:not(:disabled):active,
+            &:not(:disabled):active:hover {
                 background: var(--primary-color);
             }
 
-            // @media (hover: none) {
-            //     &:not(:disabled):hover {
-            //         background: var(--dark-primary-color);
-            //     }
-            // }
+            /* mouse, touch pad */
+            @media (hover: hover) and (pointer: fine) {
+                &:not(:disabled):hover {
+                    background: var(--dark-primary-color);
+                }
+            }
 
         }
 
-        &_tool {
-            min-width: var(--tool-button-width);
-            height: var(--tool-button-height);
-            border: 1px solid var(--tool-button-border-color);
+        &_primary-text {
+            display: inline-flex;
+            padding: 0 20px;
+        }
+
+        &_primary-icon {
+            width: var(--primary-button-width);
+        }
+
+        &_secondary {
+            height: var(--secondary-button-height);
+            border: 1px solid var(--secondary-button-border-color);
             color: white;
 
-            &:not(:disabled):hover {
-                opacity: .5;
-            }
-
-            &:not(:disabled):active {
+            &:not(:disabled):active,
+            &:not(:disabled):active:hover {
                 opacity: .7;
             }
 
             /deep/ svg {
-                width: var(--tool-button-icon-size);
-                height: var(--tool-button-icon-size);
+                width: var(--secondary-button-icon-size);
+                height: var(--secondary-button-icon-size);
             }
+
+            /* mouse, touch pad */
+            @media (hover: hover) and (pointer: fine) {
+                &:not(:disabled):hover {
+                    opacity: .5;
+                }
+            }
+        }
+
+        &_secondary-text {
+            display: inline-flex;
+            padding: 0 25px;
+        }
+
+        &_secondary-icon {
+            width: var(--secondary-button-width);
         }
     }
 </style>

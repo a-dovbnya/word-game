@@ -118,10 +118,15 @@ onBeforeUnmount(() => {
             gap: 8px;
         }
 
+        &__btn {
+            padding: 2px;
+            flex-shrink: 0;
+        }
+
         &__icon {
             fill: white;
-            width: var(--default-button-icon-size);
-            height: var(--default-button-icon-size);
+            width: var(--primary-button-icon-size);
+            height: var(--primary-button-icon-size);
 
             &:focus {
                 outline: none;
