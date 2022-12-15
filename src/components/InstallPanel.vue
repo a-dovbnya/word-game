@@ -1,7 +1,6 @@
 <template>
     <div v-if="isShown" class="install-panel">
         <GameButton class="install-btn" button-type="secondary" @click="install">Установить</GameButton>
-        <GameButton class="install-btn" button-type="secondary" @click="isShown = false">Не сейчас</GameButton>
     </div>
 </template>
 

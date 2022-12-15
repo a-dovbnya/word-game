@@ -123,7 +123,7 @@ const isIcon = ['img', 'svg'].includes(slots.default()[0]?.type)
 
         &_secondary-text {
             display: inline-flex;
-            padding: 0 25px;
+            padding: 0 20px;
         }
 
         &_secondary-icon {
