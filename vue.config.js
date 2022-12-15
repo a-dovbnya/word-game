@@ -5,5 +5,6 @@ module.exports = defineConfig({
     name: 'Word Game',
     themeColor: '#0097A7',
     assetsVersion: '0.0.2'
-  }
+  },
+  publicPath: '/word-game/dist/'
 })
