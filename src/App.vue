@@ -8,6 +8,18 @@
       />
 
       <div class="app-panel__tools">
+        <GameButton
+          :disabled="openLetterIndex > -1"
+          button-type="secondary"
+          @click="isOpenLetter = true"
+        >
+          <img
+              v-svg-inline
+              src="./assets/icons/spellcheck.svg"
+              class="tool-btn__icon"
+          />
+        </GameButton>
+
         <GameButton button-type="secondary" @click="init">
           <img
               v-svg-inline
@@ -41,7 +53,14 @@
             :current-word="_currentWord"
             :is-input="words.length === i - 1"
             :active="words.length === i - 1 && !isSuccess"
-            :class="{'active-row': words.length === i - 1 && !isSuccess}"
+            :open-letter-mode="isOpenLetter"
+            :open-letter-index="openLetterIndex"
+            :class="{
+              'word-row': true,
+              'word-row_active': words.length === i - 1 && !isSuccess && !isOpenLetter,
+              'word-row_open-mode': words.length === i - 1 && !isSuccess && isOpenLetter
+            }"
+            @open-letter="onOpenLetter"
           />
       </div>
     </div>
@@ -89,6 +108,11 @@ const error = ref()
 const gameOver = ref(null)
 const _currentWord = ref('')
 
+// Подсказка
+const isOpenLetter = ref(false)
+// Индекс открытой буквы
+const openLetterIndex = ref(-1)
+
 const currentWords = computed(() => {
   if (words.value.length < WORD_QUANTITY && newWord.value) {
     return [...words.value, newWord.value]
@@ -97,10 +121,16 @@ const currentWords = computed(() => {
   return words.value
 })
 
+/**
+ * Слово отгадано
+ */
 const isSuccess = computed(() => {
   return gameOver.value === GAME_OVER.SUCCESS
 })
 
+/**
+ * Заблокированные кнопки на клавиатуре
+ */
 const disabledSymbols = computed(() => {
     return words.value
         .reduce((res, currentWord) => res + currentWord, '')
@@ -108,11 +138,16 @@ const disabledSymbols = computed(() => {
         .filter((symbol, i, arr) => !_currentWord.value.includes(symbol) && arr.indexOf(symbol) === i)
 })
 
+/**
+ * Загадать слово из словаря
+ */
 const setWord = () => {
   _currentWord.value = dictionary[Math.floor(Math.random() * dictionary.length)].toLowerCase()
-  console.log('words = ', dictionary.length)
 }
 
+/**
+ * Добавить слово в массив ответов
+ */
 const addWord = () => {
   if (newWord.value.length < 5) {
     return
@@ -131,14 +166,35 @@ const addWord = () => {
   }
 }
 
+/**
+ * Добавляет символ к активному слову
+ * @param {string} symbol 
+ */
 const onSetLetter = (symbol) => {
+  if (isOpenLetter.value) {
+    return
+  }
+
+  if (newWord.value.length === openLetterIndex.value) {
+    newWord.value = newWord.value + _currentWord.value[openLetterIndex.value]
+  }
+
   if (newWord.value.length < LETTERS_QUANTITY) {
     newWord.value = newWord.value + symbol
-  }
+  } 
 }
 
+/**
+ * Стираем последний символ
+ */
 const onRemoveLastSymbol = () => {
   newWord.value = newWord.value.slice(0, -1)
+}
+
+// Подсказка "Открыть любую букву"
+const onOpenLetter = (index) => {
+  openLetterIndex.value = index
+  isOpenLetter.value = false
 }
 
 const init = () => {
@@ -146,6 +202,9 @@ const init = () => {
   newWord.value = ''
   error.value = null
   gameOver.value = null
+  isOpenLetter.value = false
+  openLetterIndex.value = -1
+
   setWord()
 }
 
@@ -264,9 +323,17 @@ body {
   }
 }
 
-.active-row {
-  box-shadow: 0px 0px 5px 2px var(--primary-color);
+.word-row {
   position: relative;
-  z-index: 10;
+
+  &_active {
+    box-shadow: 0px 0px 5px 2px var(--primary-color);
+    z-index: 10;
+  }
+
+  &_open-mode {
+    box-shadow: 0px 0px 5px 2px var(--accent-color);
+    z-index: 10;
+  }
 }
 </style>

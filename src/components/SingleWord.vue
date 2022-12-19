@@ -4,12 +4,13 @@
             v-for="(l, index) in letters"
             :key="`letter-${index}`"
             :class="getClass(l, index)"
+            @click="onClick(index)"
         >{{ l }}</div>
     </div>
 </template>
 
 <script setup>
-    import { defineProps, computed } from 'vue'
+    import { defineProps, computed, defineEmits } from 'vue'
 
     const props = defineProps({
         word: {
@@ -27,6 +28,20 @@
             default: false
         },
 
+        /**
+         * Определяет режим подсказки
+         * Выбор буквы
+         */
+        openLetterMode: {
+            type: Boolean,
+            default: false
+        },
+
+        openLetterIndex: {
+            type: Number,
+            default: -1
+        },
+
         isInput: {
             type: Boolean,
             default: false
@@ -38,27 +53,37 @@
         }
     })
 
+    const emits = defineEmits(['open-letter'])
+
     const letters = computed(() => {
-        if (props.word) {
-            const letters = props.word.split('')
+        const letters = props.word ? props.word.split('') : Array(5).fill('')
 
-            if (letters.length < 5) {
-                letters.length = 5
-            }
-
-            return letters.map(l => !l ? '' : l)
+        if (letters.length < 5) {
+            letters.length = 5
         }
 
-        const emptyLetters = []
-        emptyLetters.length = 5
-        return emptyLetters.fill('')
+        if (props.openLetterIndex > -1 && props.active) {
+            letters[props.openLetterIndex] = props.currentWord[props.openLetterIndex]
+        }
+
+        return letters.map(l => !l ? '' : l)
     })
 
     const getClass = (letter, position) => {
         const classes = ['letter']
 
+        // Режим подсказки "Открыть любую букву"
+        if (props.openLetterMode && props.active) {
+            classes.push('letter_open-mode')
+            return classes
+        }
+
         if (props.active) {
             classes.push('letter_active')
+        }
+
+        if (position === props.openLetterIndex && props.active) {
+            classes.push('letter_on-position')
         }
 
         if (props.isInput || !props.word) {
@@ -80,6 +105,12 @@
         }
 
         return classes
+    }
+
+    const onClick = (index) => {
+        if (props.openLetterMode) {
+            emits('open-letter', index)
+        }
     }
 </script>
 
@@ -121,6 +152,10 @@
 
         &_active {
             outline-color: var(--primary-color);
+        }
+
+        &_open-mode {
+            outline-color: var(--accent-color);
         }
     }
 </style>

@@ -44,7 +44,7 @@ onBeforeUnmount(() => {
 
 <style lang="less" scoped>
 .install-panel {
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 .install-btn {
