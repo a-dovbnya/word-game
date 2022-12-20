@@ -175,7 +175,7 @@ const onSetLetter = (symbol) => {
     return
   }
 
-  if (newWord.value.length === openLetterIndex.value) {
+  if (newWord.value.length === openLetterIndex.value && symbol !== _currentWord.value[openLetterIndex.value]) {
     newWord.value = newWord.value + _currentWord.value[openLetterIndex.value]
   }
 
@@ -191,7 +191,9 @@ const onRemoveLastSymbol = () => {
   newWord.value = newWord.value.slice(0, -1)
 }
 
-// Подсказка "Открыть любую букву"
+/**
+ * Подсказка "Открыть любую букву"
+ */
 const onOpenLetter = (index) => {
   openLetterIndex.value = index
   isOpenLetter.value = false
