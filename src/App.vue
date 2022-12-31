@@ -65,11 +65,13 @@
       </div>
     </div>
 
-    <div v-if="gameOver" class="app__game-over">
-      <p v-if="gameOver === GAME_OVER.SUCCESS" class="app__game-over-msg app__game-over-msg_success">Вы отгадали слово</p>
-      <p v-else-if="gameOver === GAME_OVER.ERROR" class="app__game-over-msg app__game-over-msg_error">Вы не отгадали слово : <br />"{{_currentWord}}"</p>
-      <GameButton class="app__game-over-btn" @click="init">Еще раз</GameButton>
-    </div>
+    <InfoPanel
+      v-if="infoPanel"
+      :type="infoPanel"
+      :word="_currentWord"
+      @restart-game="init"
+      @cancel-game="isOpenLetter = false"
+    />
 
     <GameKeyboard
       v-else
@@ -92,10 +94,15 @@ import SingleWord from './components/SingleWord.vue'
 import GameKeyboard from './components/GameKeyboard.vue'
 import GameButton from './components/GameButton.vue'
 import InstallPanel from  './components/InstallPanel.vue'
+import InfoPanel from  './components/InfoPanel.vue'
 import dictionary from './dictionary'
+import { INFO_MESSAGE } from './enums'
 
 const WORD_QUANTITY = 5
 const LETTERS_QUANTITY = 5
+
+// todo - вынести в enums
+// Скорректировать название с error на lost
 const GAME_OVER = {
   SUCCESS: 'success',
   ERROR: 'error'
@@ -136,6 +143,25 @@ const disabledSymbols = computed(() => {
         .reduce((res, currentWord) => res + currentWord, '')
         .split('')
         .filter((symbol, i, arr) => !_currentWord.value.includes(symbol) && arr.indexOf(symbol) === i)
+})
+
+/**
+ * Показать информационное сообщение вместо клавиатуры
+ */
+const infoPanel = computed(() => {
+  if (gameOver.value ===GAME_OVER.SUCCESS) {
+    return INFO_MESSAGE.GAME_OVER_SUCCESS
+  }
+
+  if (gameOver.value === GAME_OVER.ERROR) {
+    return INFO_MESSAGE.GAME_OVER_LOST
+  }
+
+  if (isOpenLetter.value) {
+    return INFO_MESSAGE.SELECT_LETTER
+  }
+
+  return undefined
 })
 
 /**
@@ -285,31 +311,6 @@ body {
     gap: 8px;
     width: var(--game-width);
     margin: 0 auto 35px;
-  }
-
-  &__game-over {
-    font-size: 24px;
-    line-height: 1;
-    text-align: center;
-    color: white;
-  }
-
-  &__game-over-msg {
-    margin-top: 0;
-    margin-bottom: 50px;
-    font-weight: 200;
-
-    &_success {
-      color: var(--accent-color);
-    }
-    &_error {
-      color: var(--light-primary-color);
-    }
-  }
-
-  &__game-over-btn {
-    display: inline-flex;
-    padding: 0 30px;
   }
 
   &__game {
