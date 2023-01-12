@@ -4,6 +4,6 @@ module.exports = defineConfig({
   pwa: {
     name: 'Word Game',
     themeColor: '#0097A7',
-    assetsVersion: '0.0.1'
+    assetsVersion: '0.0.2'
   }
 })
