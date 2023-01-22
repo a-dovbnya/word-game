@@ -88,39 +88,30 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref, computed, onBeforeMount } from 'vue'
 import SingleWord from './components/SingleWord.vue'
 import GameKeyboard from './components/GameKeyboard.vue'
 import GameButton from './components/GameButton.vue'
 import InstallPanel from  './components/InstallPanel.vue'
 import InfoPanel from  './components/InfoPanel.vue'
-import dictionary from './dictionary'
-import { INFO_MESSAGE } from './enums'
+import dictionary from './dictionary.json'
+import { INFO_MESSAGE, GAME_OVER } from './enums'
 
 const WORD_QUANTITY = 5
 const LETTERS_QUANTITY = 5
 
-// todo - вынести в enums
-// Скорректировать название с error на lost
-const GAME_OVER = {
-  SUCCESS: 'success',
-  ERROR: 'error'
-}
-
-
-const words = ref([])
-const newWord = ref('')
-const error = ref()
-const gameOver = ref(null)
-const _currentWord = ref('')
+const words = ref<string[]>([])
+const newWord = ref<string>('')
+const gameOver = ref<string>('')
+const _currentWord = ref<string>('')
 
 // Подсказка
-const isOpenLetter = ref(false)
+const isOpenLetter = ref<boolean>(false)
 // Индекс открытой буквы
-const openLetterIndex = ref(-1)
+const openLetterIndex = ref<number>(-1)
 
-const currentWords = computed(() => {
+const currentWords = computed((): string[] => {
   if (words.value.length < WORD_QUANTITY && newWord.value) {
     return [...words.value, newWord.value]
   }
@@ -131,29 +122,29 @@ const currentWords = computed(() => {
 /**
  * Слово отгадано
  */
-const isSuccess = computed(() => {
+const isSuccess = computed<boolean>(() => {
   return gameOver.value === GAME_OVER.SUCCESS
 })
 
 /**
  * Заблокированные кнопки на клавиатуре
  */
-const disabledSymbols = computed(() => {
+const disabledSymbols = computed<string[]>(() => {
     return words.value
-        .reduce((res, currentWord) => res + currentWord, '')
+        .reduce((res: string, currentWord: string) => res + currentWord, '')
         .split('')
-        .filter((symbol, i, arr) => !_currentWord.value.includes(symbol) && arr.indexOf(symbol) === i)
+        .filter((symbol: string, i: number, arr: string[]) => !_currentWord.value.includes(symbol) && arr.indexOf(symbol) === i)
 })
 
 /**
  * Показать информационное сообщение вместо клавиатуры
  */
-const infoPanel = computed(() => {
+const infoPanel = computed<string | undefined>(() => {
   if (gameOver.value ===GAME_OVER.SUCCESS) {
     return INFO_MESSAGE.GAME_OVER_SUCCESS
   }
 
-  if (gameOver.value === GAME_OVER.ERROR) {
+  if (gameOver.value === GAME_OVER.LOST) {
     return INFO_MESSAGE.GAME_OVER_LOST
   }
 
@@ -167,14 +158,14 @@ const infoPanel = computed(() => {
 /**
  * Загадать слово из словаря
  */
-const setWord = () => {
+const setWord = (): void => {
   _currentWord.value = dictionary[Math.floor(Math.random() * dictionary.length)].toLowerCase()
 }
 
 /**
  * Добавить слово в массив ответов
  */
-const addWord = () => {
+const addWord = (): void => {
   if (newWord.value.length < 5) {
     return
   }
@@ -188,7 +179,7 @@ const addWord = () => {
   }
 
   if (words.value.length === 5) {
-    gameOver.value = GAME_OVER.ERROR
+    gameOver.value = GAME_OVER.LOST
   }
 }
 
@@ -196,7 +187,7 @@ const addWord = () => {
  * Добавляет символ к активному слову
  * @param {string} symbol 
  */
-const onSetLetter = (symbol) => {
+const onSetLetter = (symbol: string): void => {
   if (isOpenLetter.value) {
     return
   }
@@ -213,30 +204,29 @@ const onSetLetter = (symbol) => {
 /**
  * Стираем последний символ
  */
-const onRemoveLastSymbol = () => {
+const onRemoveLastSymbol = (): void => {
   newWord.value = newWord.value.slice(0, -1)
 }
 
 /**
  * Подсказка "Открыть любую букву"
  */
-const onOpenLetter = (index) => {
+const onOpenLetter = (index: number): void => {
   openLetterIndex.value = index
   isOpenLetter.value = false
 }
 
-const init = () => {
+const init = (): void => {
   words.value = []
   newWord.value = ''
-  error.value = null
-  gameOver.value = null
+  gameOver.value = ''
   isOpenLetter.value = false
   openLetterIndex.value = -1
 
   setWord()
 }
 
-onBeforeMount(() => {
+onBeforeMount((): void => {
   init()
 })
 </script>

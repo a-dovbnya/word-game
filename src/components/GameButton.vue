@@ -11,7 +11,7 @@
   </button>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { defineProps, useSlots } from 'vue'
 
 const props = defineProps({
@@ -23,7 +23,8 @@ const props = defineProps({
 })
 
 const slots = useSlots()
-const isIcon = ['img', 'svg'].includes(slots.default()[0]?.type)
+const slotContent = slots && slots.default ? slots.default()[0]?.type : {type: ''}
+const isIcon = ['img', 'svg'].includes(slotContent as string)
 
 </script>
 

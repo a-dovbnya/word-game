@@ -4,12 +4,14 @@
     </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref, onBeforeMount, onBeforeUnmount } from 'vue'
 import GameButton from './GameButton.vue'
+import { BeforeInstallPromptEvent } from '@/global.d'
+
 
 const isShown = ref(false)
-let installEvent = null
+let installEvent: BeforeInstallPromptEvent
 
 const install = () => {
   if (!installEvent) {
@@ -17,7 +19,7 @@ const install = () => {
   }
 
   installEvent.prompt()
-  installEvent.userChoice.then((choice) => {
+  installEvent.userChoice.then((choice: any) => {
     isShown.value = false
 
     if (choice.outcome !== 'accepted') {
@@ -26,7 +28,7 @@ const install = () => {
   })
 }
 
-const onBeforeInstall = e => {
+const onBeforeInstall = (e: BeforeInstallPromptEvent) => {
   e.preventDefault()
   installEvent = e
   isShown.value = true

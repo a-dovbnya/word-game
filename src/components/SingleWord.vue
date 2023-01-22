@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { defineProps, computed, defineEmits } from 'vue'
 
 const props = defineProps({
@@ -57,7 +57,7 @@ const props = defineProps({
 
 const emits = defineEmits(['open-letter'])
 
-const letters = computed(() => {
+const letters = computed((): string[] => {
   const letters = props.word ? props.word.split('') : Array(5).fill('')
 
   if (letters.length < 5) {
@@ -71,7 +71,7 @@ const letters = computed(() => {
   return letters.map(l => !l ? '' : l)
 })
 
-const getClass = (letter, position) => {
+const getClass = (letter: string, position: number): string[] => {
   const classes = ['letter']
 
   // Режим подсказки "Открыть любую букву"
@@ -109,7 +109,7 @@ const getClass = (letter, position) => {
   return classes
 }
 
-const onClick = (index) => {
+const onClick = (index: number): void => {
   if (props.openLetterMode) {
     emits('open-letter', index)
   }

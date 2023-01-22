@@ -1,7 +1,7 @@
 <template>
   <div :class="classes">
     <div class="info-panel__msg">
-      {{ t.message[props.type] }}
+      {{ message }}
 
       <div
         v-if="props.type === INFO_MESSAGE.GAME_OVER_LOST"
@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { defineProps, defineEmits, computed } from 'vue'
 import { INFO_MESSAGE } from '../enums'
 import t from '@/i18n'
@@ -24,8 +24,7 @@ import GameButton from '@/components/GameButton.vue'
 const props = defineProps({
   type: {
     type: String,
-    default: null,
-    validator: type => Object.values(INFO_MESSAGE).includes(type)
+    reqiured: true
   },
 
   word: {
@@ -36,8 +35,8 @@ const props = defineProps({
 
 const emits = defineEmits(['restart-game', 'cancel-game'])
 
-const classes = computed(() => {
-  const classes = ['info-panel']
+const classes = computed((): string[] => {
+  const classes: string[] = ['info-panel']
 
   if (props.type === INFO_MESSAGE.GAME_OVER_LOST) {
     classes.push('info-panel_lost')
@@ -48,7 +47,11 @@ const classes = computed(() => {
   return classes
 })
 
-const isGameOver = computed(() => {
+const message = computed(() => {
+  return t.message[props.type as `${INFO_MESSAGE}`]
+})
+
+const isGameOver = computed((): boolean => {
   return props.type === INFO_MESSAGE.GAME_OVER_LOST || props.type === INFO_MESSAGE.GAME_OVER_SUCCESS
 })
 </script>

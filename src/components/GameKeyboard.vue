@@ -30,7 +30,7 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { defineEmits, defineProps, onMounted, onBeforeUnmount } from 'vue'
 import GameButton from './GameButton.vue'
 
@@ -43,7 +43,7 @@ const alphabetRows = [
   [applySymbol, 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', removeSymbol]
 ]
 
-const isDisabled = symbol => {
+const isDisabled = (symbol: string): boolean => {
   if (props.disabledSymbols.includes(symbol)) {
     return true
   }
@@ -63,24 +63,31 @@ const props = defineProps({
   }
 })
 
-const emits = defineEmits(['set-letter', 'apply-word', 'remove-last-symbol'])
+// const emits = defineEmits(['set-letter', 'apply-word', 'remove-last-symbol'])
+const emits = defineEmits<{
+  /* eslint-disable */
+  (event: 'set-letter', symbol: string): void
+  (event: 'remove-last-symbol'): void
+  (event: 'apply-word'): void
+  /* eslint-enable */
+}>()
 
-const onKeyClick = symbol => {
-  let event = 'set-letter'
-
+const onKeyClick = (symbol: string) => {
   if (symbol === removeSymbol) {
-    event = 'remove-last-symbol'
+    emits('remove-last-symbol')
+    return
   } else if (symbol === applySymbol) {
-    event = 'apply-word'
+    emits('apply-word')
+    return
   }
 
-  emits(event, symbol)
+  emits('set-letter', symbol)
 }
 
 /**
  * Управление с клавиатуры
  */
-const onKeydown = (e) => {
+const onKeydown = (e: KeyboardEvent) => {
   for (let i = 0; i < alphabetRows.length; i++) {
     if (alphabetRows[i].includes(e.key)) {
       onKeyClick(e.key)
