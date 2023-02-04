@@ -1,90 +1,98 @@
 <template>
-  <header class="app-panel">
-    <div class="app-panel__content">
-      <img
-        v-svg-inline
-        class="app-panel__logo"
-        src="./assets/logo.svg"
-      />
-
-      <div class="app-panel__tools">
-        <GameButton
-          :disabled="openLetterIndex > -1"
-          button-type="secondary"
-          @click="isOpenLetter = true"
-        >
+  <div class="app-wrapper">
+    <div class="app-content">
+      <header class="app-panel">
+        <div class="app-panel__content">
           <img
-              v-svg-inline
-              src="./assets/icons/spellcheck.svg"
-              class="tool-btn__icon"
+            v-svg-inline
+            class="app-panel__logo"
+            src="./assets/logo.svg"
           />
-        </GameButton>
 
-        <GameButton button-type="secondary" @click="init">
-          <img
-              v-svg-inline
-              src="./assets/icons/refresh.svg"
-              class="tool-btn__icon"
-          />
-        </GameButton>
+          <div class="app-panel__tools">
+            <GameButton
+              :disabled="openLetterIndex > -1"
+              button-type="secondary"
+              @click="isOpenLetter = true"
+            >
+              <img
+                  v-svg-inline
+                  src="./assets/icons/spellcheck.svg"
+                  class="tool-btn__icon"
+              />
+            </GameButton>
 
-        <!-- <GameButton button-type="secondary" @click="init">
-          <img
-              v-svg-inline
-              src="./assets/icons/settings.svg"
-              class="tool-btn__icon"
-          />
-        </GameButton> -->
+            <GameButton button-type="secondary" @click="init">
+              <img
+                  v-svg-inline
+                  src="./assets/icons/refresh.svg"
+                  class="tool-btn__icon"
+              />
+            </GameButton>
 
-        <InstallPanel />
+            <!-- <GameButton button-type="secondary" @click="init">
+              <img
+                  v-svg-inline
+                  src="./assets/icons/settings.svg"
+                  class="tool-btn__icon"
+              />
+            </GameButton> -->
+
+            <InstallPanel />
+          </div>
+        </div>
+      </header>
+
+      <div class="app">
+        <div class="app__content">
+
+          <div class="app__game">
+              <SingleWord
+                v-for="i in 5"
+                :key="i"
+                :is-open="i <= words.length"
+                :word="currentWords[i-1]"
+                :current-word="_currentWord"
+                :is-input="words.length === i - 1"
+                :active="words.length === i - 1 && !isSuccess"
+                :open-letter-mode="isOpenLetter"
+                :open-letter-index="openLetterIndex"
+                :class="{
+                  'word-row': true,
+                  'word-row_active': words.length === i - 1 && !isSuccess && !isOpenLetter,
+                  'word-row_open-mode': words.length === i - 1 && !isSuccess && isOpenLetter
+                }"
+                @open-letter="onOpenLetter"
+              />
+          </div>
+        </div>
+
+        <InfoPanel
+          v-if="infoPanel"
+          :type="infoPanel"
+          :word="_currentWord"
+          @restart-game="init"
+          @cancel-game="isOpenLetter = false"
+        />
+
+        <GameKeyboard
+          v-else
+          :word="newWord"
+          :disabled-symbols="disabledSymbols"
+          @set-letter="onSetLetter"
+          @remove-last-symbol="onRemoveLastSymbol"
+          @apply-word="addWord"
+        />
+
+        <!-- <p>NewWord = {{ newWord }}</p>
+        <p>currentWord = {{ _currentWord }}</p>
+        <p>{{ disabledSymbols }}</p> -->
       </div>
     </div>
-  </header>
 
-  <div class="app">
-    <div class="app__content">
-
-      <div class="app__game">
-          <SingleWord
-            v-for="i in 5"
-            :key="i"
-            :is-open="i <= words.length"
-            :word="currentWords[i-1]"
-            :current-word="_currentWord"
-            :is-input="words.length === i - 1"
-            :active="words.length === i - 1 && !isSuccess"
-            :open-letter-mode="isOpenLetter"
-            :open-letter-index="openLetterIndex"
-            :class="{
-              'word-row': true,
-              'word-row_active': words.length === i - 1 && !isSuccess && !isOpenLetter,
-              'word-row_open-mode': words.length === i - 1 && !isSuccess && isOpenLetter
-            }"
-            @open-letter="onOpenLetter"
-          />
-      </div>
-    </div>
-
-    <InfoPanel
-      v-if="infoPanel"
-      :type="infoPanel"
-      :word="_currentWord"
-      @restart-game="init"
-      @cancel-game="isOpenLetter = false"
-    />
-
-    <GameKeyboard
-      v-else
-      :word="newWord"
-      :disabled-symbols="disabledSymbols"
-      @set-letter="onSetLetter"
-      @remove-last-symbol="onRemoveLastSymbol"
-      @apply-word="addWord"
-    />
-
-    <!-- <p>NewWord = {{ newWord }}</p>
-    <p>currentWord = {{ _currentWord }}</p>
-    <p>{{ disabledSymbols }}</p> -->
+    <footer class="app-footer">
+      &#169; Word Game {{ (new Date()).getFullYear() }}
+    </footer>
   </div>
 </template>
 
@@ -250,6 +258,23 @@ body {
 <style lang="less" scoped>
 @app: .app;
 
+.app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-content {
+  flex: 1 0 auto;
+}
+
+.app-footer {
+  flex: 0 0 auto;
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  padding: 15px 0;
+}
 .app-panel {
   width: 100%;
   margin: 0 0 50px;
