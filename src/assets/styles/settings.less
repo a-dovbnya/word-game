@@ -27,12 +27,20 @@
     --primary-button-font-size: 18px;
     --primary-button-icon-size: 25px;
     --primary-button-border-color: var(--primary-color);
-  
+
+    // Размер буквы
+    --letter-size: 50px;
+
     // Высота кнопки клавиатуры на мобильном разрешении
     --keyboard-button-mobile-height: 35px;
 
     --logo-size: 42px;
   
+    @media screen and (min-width: 740px) {
+      --letter-size: 65px;
+      --game-width: calc(var(--letter-size) * 5 + 4);
+    }
+
     @media screen and (max-width: 740px) {
       --primary-button-width: 40px;
       --primary-button-icon-size: 20px;

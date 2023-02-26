@@ -125,8 +125,8 @@ const onClick = (index: number): void => {
 
 .letter {
   margin-top: -1px;
-  width: 50px;
-  height: 50px;
+  width: var(--letter-size);
+  height: var(--letter-size);
   outline: 1px solid white;
   color: var(--text-icons);
   cursor: pointer;

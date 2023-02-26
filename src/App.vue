@@ -1,15 +1,15 @@
 <template>
   <div class="app-wrapper">
     <div class="app-content">
-      <header class="app-panel">
-        <div class="app-panel__content">
+      <header class="app-header">
+        <div class="app-header__content">
           <img
             v-svg-inline
-            class="app-panel__logo"
+            class="app-header__logo"
             src="./assets/logo.svg"
           />
 
-          <div class="app-panel__tools">
+          <div class="app-header__tools">
             <GameButton
               :disabled="openLetterIndex > -1"
               button-type="secondary"
@@ -43,10 +43,10 @@
         </div>
       </header>
 
-      <div class="app">
-        <div class="app__content">
+      <div class="app-game">
+        <div class="app-game__content">
 
-          <div class="app__game">
+          <div class="app-game__words">
               <SingleWord
                 v-for="i in 5"
                 :key="i"
@@ -256,7 +256,6 @@ body {
 </style>
 
 <style lang="less" scoped>
-@app: .app;
 
 .app-wrapper {
   min-height: 100vh;
@@ -275,7 +274,7 @@ body {
   color: white;
   padding: 15px 0;
 }
-.app-panel {
+.app-header {
   width: 100%;
   margin: 0 0 50px;
   padding: 10px;
@@ -303,7 +302,7 @@ body {
   }
 }
 
-@{app} {
+.app-game {
   margin: 0 auto;
   width: 100%;
   max-width: var(--app-width);
@@ -328,7 +327,7 @@ body {
     margin: 0 auto 35px;
   }
 
-  &__game {
+  &__words {
     width: var(--game-width);
     margin: 0 auto 50px;
   }
