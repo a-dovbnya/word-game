@@ -91,7 +91,10 @@
     </div>
 
     <footer class="app-footer">
-      &#169; Word Game {{ (new Date()).getFullYear() }}
+      <SocialLinks />
+      <div class="app-copy">
+        &#169; Word Game {{ (new Date()).getFullYear() }}
+      </div>
     </footer>
   </div>
 </template>
@@ -103,6 +106,7 @@ import GameKeyboard from './components/GameKeyboard.vue'
 import GameButton from './components/GameButton.vue'
 import InstallPanel from  './components/InstallPanel.vue'
 import InfoPanel from  './components/InfoPanel.vue'
+import SocialLinks from './components/SocialLinks.vue'
 import dictionary from './dictionary.json'
 import { INFO_MESSAGE, GAME_OVER } from './enums'
 
@@ -352,5 +356,9 @@ body {
     box-shadow: 0px 0px 5px 2px var(--accent-color);
     z-index: 10;
   }
+}
+
+.app-copy {
+  text-align: center;
 }
 </style>
