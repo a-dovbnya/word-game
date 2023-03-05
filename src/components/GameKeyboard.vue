@@ -127,6 +127,7 @@ onBeforeUnmount(() => {
   &__btn {
     padding: 2px;
     flex-shrink: 0;
+    margin: 0;
   }
 
   &__icon {
