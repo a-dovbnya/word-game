@@ -10,6 +10,7 @@
         :key="`keyboard-${symbol}-${j}`"
         :disabled="isDisabled(symbol)"
         class="keyboard__btn"
+        :data-test-symbol="symbol"
         @click="onKeyClick(symbol)"
       >
         <img
@@ -32,10 +33,8 @@
 
 <script lang="ts" setup>
 import { defineEmits, defineProps, onMounted, onBeforeUnmount } from 'vue'
+import { applySymbol, removeSymbol } from '../consts'
 import GameButton from './GameButton.vue'
-
-const applySymbol = 'Add'
-const removeSymbol = '<-'
 
 const alphabetRows = [
   ['й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ'],
