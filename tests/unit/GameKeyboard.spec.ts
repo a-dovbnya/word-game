@@ -1,4 +1,4 @@
-import { DOMWrapper, mount, VueWrapper } from '@vue/test-utils'
+import { mount, VueWrapper } from '@vue/test-utils'
 import GameKeyboard from '@/components/GameKeyboard.vue'
 import GameButton from '@/components/GameButton.vue'
 import { applySymbol, removeSymbol } from '@/consts'
@@ -6,12 +6,13 @@ import { applySymbol, removeSymbol } from '@/consts'
 describe('GameKeyboard', () => {
   let wrapper: any
 
-  const createByMount = (props = {}, slots = {}) => {
+  const createByMount = (props = {}) => {
     wrapper = mount(GameKeyboard, {
       propsData: props,
-      slots,
-      directives: {
-        svgInline() { /* stub */ }
+      global: {
+        directives: {
+          svgInline() { /* stub */ }
+        }
       }
     })
   }
@@ -31,7 +32,7 @@ describe('GameKeyboard', () => {
   })
 
   it('При нажатии на кнопку с буквой происходит эммит события с этой буквой', () => {
-    createByMount()
+    createByMount({})
 
     const LETTER = 'а'
     const button = wrapper.findAllComponents(GameButton).filter((btn: VueWrapper) => btn.text() === LETTER)[0]
@@ -103,5 +104,9 @@ describe('GameKeyboard', () => {
     expect(wrapper.emitted('apply-word')).toBeTruthy()
   })
 
-  // Работа с клавиатуры
+
+  // При нажатии на кнопку стирания, происходит эммит события
+  // После эммита события слово передается без последнего символа
+  // Кнопка применить..
+  // Если передано слово более 5 букв, то при клике на любую букву ничего не происходит
 })
