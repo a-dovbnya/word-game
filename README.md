@@ -1,24 +1,18 @@
-# word-game
+# Игра "Отадай слово"
 
-## Project setup
+![Word Game](https://i.imgur.com/AGj0ybp.png)
+
+[**ДЕМО**](https://a-dovbnya.github.io/word-game/dist/)
+
+Цель игры - отгадать слово из 5 букв за 5 попыток.
+Загаданное слово является существительным в единственном числе.
+За игру можно однократно воспользоваться подсказкой - открыть любую букву.
+
+Приложение является PWA, т.е может быть установлено на настольный компьютер или мобильный телефон.
+
+# Запуск локально
+
 ```
 yarn install
-```
-
-### Compiles and hot-reloads for development
-```
 yarn serve
 ```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
